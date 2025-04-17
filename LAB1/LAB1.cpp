@@ -36,10 +36,10 @@ void OutputMatrDin(const std::vector<std::vector<int>>& matr)
 		std::cout << "\n";
 	}
 }
-void swap(int& a, int& b) { //Swapчик
+void swap(int& a, int& b) { // SWAPчик
 	std::swap(a, b);
 }
-void null(std::vector<std::vector<int>>& matr, int row, int col) {
+void null(std::vector<std::vector<int>>& matr, int row, int col) { // Зануление определенных данных или переменных
 	int size = matr.size();
 	for (int i = 0; i < size; i++) {
 		matr[row][i] = 0;
@@ -49,14 +49,14 @@ void null(std::vector<std::vector<int>>& matr, int row, int col) {
 	}
 	matr[col][row] = 0;
 }
-bool check(const std::vector<int>& way, int n) {
+bool check(const std::vector<int>& way, int n) { // Проверка на отсутсвие зацикливания
 	for (int elem : way) {
 		if (n == elem - 1)
 			return false;
 	}
 	return true;
 }
-int findMinInRow(const std::vector<std::vector<int>>& matr, int row, const std::vector<int>& way) { //Найти минимальное в ряду
+int findMinInRow(const std::vector<std::vector<int>>& matr, int row, const std::vector<int>& way) { // Найти минимальное в ряду
 	int size = matr.size();
 	int min_col = 0;
 	while ((min_col < size) &&
@@ -71,7 +71,7 @@ int findMinInRow(const std::vector<std::vector<int>>& matr, int row, const std::
 	return min_col;
 }
 
-bool nextWay(std::vector<int>& way) { //Функция перестановки
+bool nextWay(std::vector<int>& way) { // Функция перестановки
 	int size = way.size();
 	int j = size - 2;
 	while (j != 0 && way[j] >= way[j + 1]) {
@@ -126,11 +126,11 @@ void Exact(const std::vector<std::vector<int>>& matr, std::vector<int>& way, // 
 			MaxSum = sum;
 		}
 	}
-}
+}	
 
 
 
-int Heuristics(std::vector<std::vector<int>>& matr, std::vector<int>& way, bool debug = false) { //Жадина
+int Heuristics(std::vector<std::vector<int>>& matr, std::vector<int>& way, bool debug = false) { // Жадина
 	int size = matr.size();
 	int row = way[0] - 1, col, sum = 0;
 	for (int i = 1; i < size; i++) {
@@ -146,10 +146,10 @@ int Heuristics(std::vector<std::vector<int>>& matr, std::vector<int>& way, bool 
 	}
 	sum += matr[row][way[0] - 1];
 	return sum;
-}
+}	
 
 
-void makeReport(int size, int first) {
+void makeReport(int size, int first) { // Заявление на готовую лабу
 	std::cout << "\nРазмер - " << size;
 	std::cout << "\nНачало - " << first;
 	clock_t start, stop, start1, stop1;
