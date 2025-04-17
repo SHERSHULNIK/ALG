@@ -166,7 +166,6 @@ void makeReport(int size, int first)
 		matr[i] = new int[size];
 	}
 	RandMatrDin(matr, size, size, 1, 20);
-	//	InputMatrDin(matr, razmer, razmer);
 	OutputMatrDin(matr, size, size);
 	way[0] = first;
 	waymin[0] = first;
