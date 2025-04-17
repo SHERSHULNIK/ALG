@@ -1,19 +1,22 @@
-﻿#include <stdio.h>
-#include <iostream>
-#include <time.h>
+﻿#include <iostream>
+#include <vector>
 #include <ctime>
+#include <cstdio>
+#include <algorithm>
 using std::cout;
 using std::cin;
 
-void OutputMasPtr(int* a, int n)
+void OutputMasPtr(const std::vector<int>&a)
 {
-	for (int* p = a; p < a + n; p++)
-		printf("%5d", *p);
+	for (const auto& elem : a) {
+		printf("%5d", elem);
+	}
 }
-void RandMatrDin(int** matr, int row, int col, int from, int to)
+void RandMatrDin(std::vector<std::vector<int>>& matr, int from, int to)
 {
-	for (int i = 0; i < row; i++) {
-		for (int j = 0; j < col; j++) {
+	int size = matr.size();
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
 			if (i == j) {
 				matr[i][j] = 0;
 			}
@@ -23,25 +26,53 @@ void RandMatrDin(int** matr, int row, int col, int from, int to)
 		}
 	}
 }
-void OutputMatrDin(int** matr, int row, int col)
+void OutputMatrDin(const std::vector<std::vector<int>>& matr)
 {
 	cout << "\n";
-	for (int i = 0; i < row; i++) {
-		for (int j = 0; j < col; j++) {
-			printf("%4d", matr[i][j]);
+	for (const auto& row : matr) {
+		for (const auto& elem : row) {
+			printf("%4d", elem);
 		}
-		cout << "\n";
+		std::cout << "\n";
 	}
 }
-void swap(int& a, int& b)
-{
-	int c;
-	c = a;
-	a = b;
-	b = c;
+void swap(int& a, int& b) { //Swapчик
+	std::swap(a, b);
 }
-bool nextWay(int* way, int size) //Функция перестановки неповторяющихся чисел
-{
+void null(std::vector<std::vector<int>>& matr, int row, int col) {
+	int size = matr.size();
+	for (int i = 0; i < size; i++) {
+		matr[row][i] = 0;
+	}
+	for (int j = 0; j < size; j++) {
+		matr[j][col] = 0;
+	}
+	matr[col][row] = 0;
+}
+bool check(const std::vector<int>& way, int n) {
+	for (int elem : way) {
+		if (n == elem - 1)
+			return false;
+	}
+	return true;
+}
+int findMinInRow(const std::vector<std::vector<int>>& matr, int row, const std::vector<int>& way) { //Найти минимальное в ряду
+	int size = matr.size();
+	int min_col = 0;
+	while ((min_col < size) &&
+		((matr[row][min_col] == 0) || (!check(way, min_col)))) {
+		min_col++;
+	}
+	for (int i = min_col; i < size; i++) {
+		if ((matr[row][i] < matr[row][min_col]) && (matr[row][i] != 0) && (check(way, i))) {
+			min_col = i;
+		}
+	}
+	return min_col;
+}
+
+bool nextWay(std::vector<int>& way) { //Функция перестановки
+	int size = way.size();
 	int j = size - 2;
 	while (j != 0 && way[j] >= way[j + 1]) {
 		j--;
@@ -55,97 +86,61 @@ bool nextWay(int* way, int size) //Функция перестановки не�
 	}
 	swap(way[j], way[k]);
 	int l = j + 1, r = size - 1;
-	while (l < r)
-	{
+	while (l < r) {
 		swap(way[l], way[r]);
 		l++;
 		r--;
 	}
 	return true;
 }
-int SumMatr(int** matr, int size, int* way) // Функция суммы по пути
-{
+
+int SumMatr(const std::vector<std::vector<int>>& matr, const std::vector<int>& way) { // Функция суммы по пути
 	int sum = 0;
+	int size = way.size();
 	for (int i = 1; i < size; i++) {
 		sum += matr[way[i - 1] - 1][way[i] - 1];
 	}
 	sum += matr[way[size - 1] - 1][way[0] - 1];
 	return sum;
 }
-void Exact(int** matr, int size, int* way, int* waymin, int& MinSum, int& MaxSum, bool debug = false) // Точный алгоритм
-{
-	int sum;
-	sum = SumMatr(matr, size, way);
-	if (debug)
-	{
-		OutputMasPtr(way, size);
-		cout << ", sum = " << sum << "\n";
+void Exact(const std::vector<std::vector<int>>& matr, std::vector<int>& way, // Точный алгоритм
+	std::vector<int>& waymin, int& MinSum, int& MaxSum, bool debug = false) {
+	int sum = SumMatr(matr, way);
+	if (debug) {
+		OutputMasPtr(way);
+		std::cout << ", sum = " << sum << "\n";
 	}
 	MinSum = sum;
 	MaxSum = sum;
-	sum = 0;
-	while (nextWay(way, size)) {
-		sum = SumMatr(matr, size, way);
-		if (debug)
-		{
-			OutputMasPtr(way, size);
-			cout << ", sum = " << sum << "\n";
+	while (nextWay(way)) {
+		sum = SumMatr(matr, way);
+		if (debug) {
+			OutputMasPtr(way);
+			std::cout << ", sum = " << sum << "\n";
 		}
 		if (sum < MinSum) {
 			MinSum = sum;
-			for (int i = 0; i < size; i++) {
-				waymin[i] = way[i];
-			}
+			waymin = way;
 		}
 		if (sum > MaxSum) {
 			MaxSum = sum;
 		}
-		sum = 0;
 	}
 }
-bool check(int* way, int size, int n) // проверка чтобы не было цикла
-{
-	for (int i = 0; i < size; i++)
-	{
-		if (n == way[i] - 1)
-			return false;
-	}
-	return true;
-}
-int findMinInRow(int** matr, int size, int row, int* way) // нахождение минимального числа в строке
-{
-	int min_col = 0;
-	while ((matr[row][min_col] == 0) && (min_col < size) || (!check(way, size, min_col))) {
-		min_col++;
-	}
-	for (int i = min_col; i < size; i++) {
-		if ((matr[row][i] < matr[row][min_col]) && (matr[row][i] != 0) && (check(way, size, i))) {
-			min_col = i;
-		}
-	}
-	return min_col;
-}
-void null(int** matr, int size, int row, int col) // зануление в эвристике
-{
-	for (int i = 0; i < size; i++) {
-		matr[row][i] = 0;
-	}
-	for (int j = 0; j < size; j++) {
-		matr[j][col] = 0;
-	}
-	matr[col][row] = 0;
-}
-int Heuristics(int** matr, int size, int* way, bool debug = false) // Жадный алгоритм
-{
+
+
+
+int Heuristics(std::vector<std::vector<int>>& matr, std::vector<int>& way, bool debug = false) { //Жадина
+	int size = matr.size();
 	int row = way[0] - 1, col, sum = 0;
 	for (int i = 1; i < size; i++) {
-		col = findMinInRow(matr, size, row, way);
+		col = findMinInRow(matr, row, way);
 		way[i] = col + 1;
 		sum += matr[row][col];
-		null(matr, size, row, col);
+		null(matr, row, col);
 		row = col;
 		if (debug) {
-			OutputMatrDin(matr, size, size);
+			OutputMatrDin(matr);
 			puts("");
 		}
 	}
@@ -153,74 +148,65 @@ int Heuristics(int** matr, int size, int* way, bool debug = false) // Жадны
 	return sum;
 }
 
-void makeReport(int size, int first)
-{
-	cout << "\nРазмер - " << size;
-	cout << "\nНачало - " << first;
-	clock_t start, stop, start1, stop1; double T, T1;
+
+void makeReport(int size, int first) {
+	std::cout << "\nРазмер - " << size;
+	std::cout << "\nНачало - " << first;
+	clock_t start, stop, start1, stop1;
+	double T, T1;
 	int MinSumExact = 0, SumHeuristics = 0, MaxSumExact = 0;
-	int* way = new int[size];
-	int* waymin = new int[size];
-	int** matr = new int* [size];
-	for (int i = 0; i < size; i++) {
-		matr[i] = new int[size];
-	}
-	RandMatrDin(matr, size, size, 1, 20);
-	OutputMatrDin(matr, size, size);
+
+	std::vector<int> way(size);
+	std::vector<int> waymin(size);
+	std::vector<std::vector<int>> matr(size, std::vector<int>(size));
+
+	RandMatrDin(matr, 1, 20);
+	OutputMatrDin(matr);
+
 	way[0] = first;
 	waymin[0] = first;
 
 	start = clock();
-	for (int i = 1, m = 1; i < size; i++, m++)
-	{
+	for (int i = 1, m = 1; i < size; i++, m++) {
 		if (i == first) {
 			m++;
 		}
 		way[i] = m;
 		waymin[i] = m;
 	}
-	Exact(matr, size, way, waymin, MinSumExact, MaxSumExact);
+	Exact(matr, way, waymin, MinSumExact, MaxSumExact);
 	stop = clock();
 
-	cout << "\nМинимальная сумма точного алгоритма - " << MinSumExact;
-	cout << "\n Путь - ";
-	OutputMasPtr(waymin, size);
-	cout << "\n\nМаксимальная сумма точного алгоритма - " << MaxSumExact;
+	std::cout << "\nМинимальная сумма точного алгоритма - " << MinSumExact;
+	std::cout << "\n Путь - ";
+	OutputMasPtr(waymin);
+	std::cout << "\n\nМаксимальная сумма точного алгоритма - " << MaxSumExact;
 	puts("");
 
 	start1 = clock();
-	for (int i = 1; i < size; i++) {
-		way[i] = 0;
-	}
-	SumHeuristics = Heuristics(matr, size, way);
+	std::fill(way.begin() + 1, way.end(), 0);
+	SumHeuristics = Heuristics(matr, way);
 	stop1 = clock();
 
-	cout << "\nСумма эвристики - " << SumHeuristics;
-	cout << "\n Путь - ";
-	OutputMasPtr(way, size);
+	std::cout << "\nСумма эвристики - " << SumHeuristics;
+	std::cout << "\n Путь - ";
+	OutputMasPtr(way);
 
 	if (MaxSumExact - MinSumExact == 0) {
-		cout << "\n\nТочность выполнения эвристики - 100";
+		std::cout << "\n\nТочность выполнения эвристики - 100";
 	}
 	else {
 		double percent = (1 - (1.0 * (SumHeuristics - MinSumExact) / (MaxSumExact - MinSumExact))) * 100;
-		cout << "\n\nТочность выполнения эвристики - " << percent;
+		std::cout << "\n\nТочность выполнения эвристики - " << percent;
 	}
 
 	T = (double)(stop - start) / CLOCKS_PER_SEC;
 	T1 = (double)(stop1 - start1) / CLOCKS_PER_SEC;
 	puts("");
-	cout << "\nВремя выполнения точного алгоритма - " << T;
-	cout << "\nВремя выполнения эвристики - " << T1;
+	std::cout << "\nВремя выполнения точного алгоритма - " << T;
+	std::cout << "\nВремя выполнения эвристики - " << T1;
 	puts("\n\n");
-	for (int i = 0; i < size; i++) {
-		delete[] matr[i];
-	}
-	delete[] matr;
-	delete[] way;
-	delete[] waymin;
 }
-
 int main()
 {
 	setlocale(LC_ALL, "Russian");
