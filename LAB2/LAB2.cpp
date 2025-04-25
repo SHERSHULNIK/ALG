@@ -12,7 +12,7 @@ std::vector<int> buildBadCharTable(const std::string& pattern) { // Таблиц
     }
     return badChar;
 }
-int boyerMooreSearchFirst(const std::string text, const std::string pattern)
+int boyerMooreSearchFirst(const std::string text, const std::string pattern) // Первое вхождение
 {
     int textSize = text.size();
     int patternSize = pattern.size();
@@ -39,7 +39,7 @@ int boyerMooreSearchFirst(const std::string text, const std::string pattern)
     return -1;
 }
 
-std::vector<int> boyerMooreSearchAll(const std::string text, const std::string pattern, int from = 0, int to = -1) { // БМ поиск
+std::vector<int> boyerMooreSearchAll(const std::string text, const std::string pattern, int from = 0, int to = -1) { // Все вхождения подстроки
     std::vector<int> result;
     int textSize = text.size();
     int patternSize = pattern.size();
