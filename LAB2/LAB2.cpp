@@ -5,7 +5,7 @@ using std::string;
 using std::cout;
 using std::cin;
 
-std::vector<int> buildBadCharTable(const std::string& pattern) {
+std::vector<int> buildBadCharTable(const std::string& pattern) { // Таблица плохого символа
     std::vector<int> badChar(256, -1);
     for (int i = 0; i < pattern.size(); ++i) {
         badChar[static_cast<unsigned char>(pattern[i])] = i;
@@ -39,7 +39,7 @@ int boyerMooreSearchFirst(const std::string text, const std::string pattern)
     return -1;
 }
 
-std::vector<int> boyerMooreSearchAll(const std::string text, const std::string pattern, int from = 0, int to = -1) {
+std::vector<int> boyerMooreSearchAll(const std::string text, const std::string pattern, int from = 0, int to = -1) { // БМ поиск
     std::vector<int> result;
     int textSize = text.size();
     int patternSize = pattern.size();
@@ -73,7 +73,7 @@ std::vector<int> boyerMooreSearchAll(const std::string text, const std::string p
     }
     return result;
 }
-int main()
+int main() // мэйн >.<
 {
     std::string text = { "std::move_iterator is an iterator adaptor which behaves exactly like the underlying iterator" };
     std::string pattern = { "tor" };
