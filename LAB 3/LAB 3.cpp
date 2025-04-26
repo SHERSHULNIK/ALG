@@ -7,18 +7,18 @@
 #include <chrono>
 #include <iomanip>
 
-bool isSorted(const std::vector<int>& vector) {
+bool isSorted(const std::vector<int>& vector) { // Проверка но отсортированность 
     return std::is_sorted(vector.begin(), vector.end());
 }
 
-int getRandomNumber(int from, int to) {
+int getRandomNumber(int from, int to) { // Рандом число в опр. диапазоне 
     std::random_device randomDevice;
     std::mt19937 generator(randomDevice());
     std::uniform_int_distribution<int> bring(from, to);
     return bring(generator);
 }
 
-void generateFile(const std::string& filename, int size, int min, int max) {
+void generateFile(const std::string& filename, int size, int min, int max) { // Генерация файла с ранд. числами 
     std::ofstream out(filename);
     for (int i = 0; i < size; ++i) {
         out << getRandomNumber(min, max) << " ";
@@ -27,7 +27,7 @@ void generateFile(const std::string& filename, int size, int min, int max) {
     std::cout << "Generated " << filename << " with " << size << " elements." << std::endl;
 }
 
-std::vector<int> loadFile(const std::string& filename) {
+std::vector<int> loadFile(const std::string& filename) { // Загружает числа из файла в вектор 
     std::ifstream in(filename);
     std::vector<int> vector;
     int number;
@@ -37,7 +37,7 @@ std::vector<int> loadFile(const std::string& filename) {
     return vector;
 }
 
-void shellSort(std::vector<int>& vector) {
+void shellSort(std::vector<int>& vector) { // Сортировка Шелла ( классическая )
     int vectorSize = vector.size();
 
     for (int gap = vectorSize / 2; gap > 0; gap /= 2) {
@@ -52,7 +52,7 @@ void shellSort(std::vector<int>& vector) {
     }
 }
 
-void shellSortKnuth(std::vector<int>& vector) {
+void shellSortKnuth(std::vector<int>& vector) { // Сортировка Шелла с последовательностью Кнута 
     int vectorSize = vector.size();
 
     int gap = 1;
@@ -73,8 +73,8 @@ void shellSortKnuth(std::vector<int>& vector) {
     }
 }
 
-void shellSortSedgewick(std::vector<int>& vector) {
-    int n = vector.size();
+void shellSortSedgewick(std::vector<int>& vector) { // Сортировка Шелла с последовательностью Седжвика
+    int n = vector.size(); 
 
     std::vector<int> gaps;
     int k = 0;
@@ -104,7 +104,7 @@ void shellSortSedgewick(std::vector<int>& vector) {
     }
 }
 
-int main() {
+int main() { // Мейн >.<
     std::vector<std::string> filenames = {
         "10000_numbers_in_range_10.txt",
         "10000_numbers_in_range_1000.txt",
@@ -126,7 +126,7 @@ int main() {
         std::cout << "Testing file: " << filename << std::endl;
         auto originalData = loadFile(filename);
 
-        // shellSort
+        // Шелл
         std::vector<double> times;
         bool allCorrect = true;
 
@@ -146,7 +146,7 @@ int main() {
         double average = (times[0] + times[1] + times[2]) / runs;
         resultsFile << filename << ", shellSort, " << average << ", " << (allCorrect ? "Yes" : "No") << "\n";
 
-        // shellSortKnuth
+        // Шелл-Кнут
         times.clear();
         allCorrect = true;
 
@@ -166,7 +166,7 @@ int main() {
         average = (times[0] + times[1] + times[2]) / runs;
         resultsFile << filename << ", shellSortKnuth, " << average << ", " << (allCorrect ? "Yes" : "No") << "\n";
 
-        // shellSortSedgewick
+        // Шелл-Седжвик 
         times.clear();
         allCorrect = true;
 
