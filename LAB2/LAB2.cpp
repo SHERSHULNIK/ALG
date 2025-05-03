@@ -6,26 +6,37 @@ using std::cout;
 using std::cin;
 
 std::vector<int> buildBadCharTable(const std::string& pattern) { // Таблица плохого символа
-    std::vector<int> badChar(256, -1);
-    for (int i = 0; i < pattern.size(); ++i) {
-        badChar[static_cast<unsigned char>(pattern[i])] = i;
+    int n = pattern.size();
+    std::vector<int> badChar(256, n);
+    for (int i = 0; i < pattern.size() - 1; ++i) {
+        badChar[static_cast<unsigned char>(pattern[i])] = n - i - 1;
+        std::cout << pattern[i] << ' ' << badChar[static_cast<unsigned char>(pattern[i])] << '\n';
     }
+    std::cout << "=========\n";
+    for (int i = 0; i < pattern.size(); ++i) {
+        std::cout << pattern[i] << ' ' << badChar[static_cast<unsigned char>(pattern[i])] << '\n';
+    }
+    std::cout << "---------\n";
     return badChar;
 }
+
 int boyerMooreSearchFirst(const std::string text, const std::string pattern) // Первое вхождение
 {
+    int pos = 0;
     int textSize = text.size();
     int patternSize = pattern.size();
-    if (patternSize == 0) {
+    if (patternSize == 0) { 
         return 0;
     }
-
     std::vector<int> badCharacterTable = buildBadCharTable(pattern);
-
-    int pos = 0;
-    while (pos <= textSize - patternSize)
+    std::cout << text << "\n"; // Вывод всего текста для реализации сдвига
+    while (pos <= textSize - patternSize) // Границы для выполнения цикла 
     {
-        int j = patternSize - 1;
+        for (int i = 0; i < pos; i++) { // Для реалиизации сдвига -->
+            std::cout << ' ';       
+        }
+        std::cout << pattern << "\n"; // <--        
+        int j = patternSize - 1; 
         while (j >= 0 && pattern[j] == text[pos + j]) {
             --j;
         }
@@ -33,7 +44,10 @@ int boyerMooreSearchFirst(const std::string text, const std::string pattern) // 
             return pos;
         }
         else {
-            pos += std::max(1, j - badCharacterTable[static_cast<unsigned char>(text[pos + j])]);
+            //i = i + T[S[i]]
+            //pos = pos + badCharacterTable[text[pos]]
+            std::cout << j << ' ' << pos << ' ' << text[pos + patternSize - 1] << ' ' << badCharacterTable[static_cast<unsigned char>(text[pos + patternSize - 1])] << "\n"; // Вывод всего текста для реализации сдвига
+            pos += (badCharacterTable[static_cast<unsigned char>(text[pos + patternSize - 1])]);
         }
     }
     return -1;
@@ -75,14 +89,14 @@ std::vector<int> boyerMooreSearchAll(const std::string text, const std::string p
 }
 int main() // мэйн >.<
 {
-    std::string text = { "std::move_iterator is an iterator adaptor which behaves exactly like the underlying iterator" };
-    std::string pattern = { "tor" };
+    std::string pattern = { "trallolo" };
+    std::string text = { "pij pij ololollo voditel' nlo" };
 
     int resultBoyerMooreSearch = boyerMooreSearchFirst(text, pattern);
-    std::vector<int> resultBoyerMooreSearchAll = boyerMooreSearchAll(text, pattern, -17, -12);
+    std::vector<int> resultBoyerMooreSearchAll = boyerMooreSearchAll(text, pattern);
 
-    std::cout << "text: " << text << std::endl;
     std::cout << "pattern: " << pattern << std::endl;
+    std::cout << "text: " << text << std::endl;
     std::cout << resultBoyerMooreSearch << std::endl;
     for (const auto& elem : resultBoyerMooreSearchAll) {
         std::cout << elem << " ";
