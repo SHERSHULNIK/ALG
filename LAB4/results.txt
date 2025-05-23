@@ -1,0 +1,10 @@
+Filename, Algorithm, Average (s), Sorted Correctly
+ARRAY1.txt, heapSort, 0.004097, Yes
+ARRAY2.txt, heapSort, 0.004264, Yes
+ARRAY3.txt, heapSort, 0.004370, Yes
+ARRAY4.txt, heapSort, 0.049087, Yes
+ARRAY5.txt, heapSort, 0.055269, Yes
+ARRAY6.txt, heapSort, 0.056367, Yes
+ARRAY7.txt, heapSort, 0.621212, Yes
+ARRAY8.txt, heapSort, 0.750101, Yes
+ARRAY9.txt, heapSort, 0.766745, Yes

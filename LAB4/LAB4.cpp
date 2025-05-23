@@ -1,9 +1,9 @@
-﻿﻿#include <iostream>
-#include <algorithm>
+﻿#include <algorithm>
 #include <vector>
 #include <fstream>
 #include <chrono>
 #include <iomanip>
+#include <iostream>
 
 bool isSorted(const std::vector<int>&vector) {
     return std::is_sorted(vector.begin(), vector.end());
@@ -54,15 +54,15 @@ void heapSort(std::vector<int>& vector) {
 
 int main() {
     std::vector<std::string> filenames = {
-    "10000_numbers_in_range_10.txt",
-    "10000_numbers_in_range_1000.txt",
-    "10000_numbers_in_range_100000.txt",
-    "100000_numbers_in_range_10.txt",
-    "100000_numbers_in_range_1000.txt",
-    "100000_numbers_in_range_100000.txt",
-    "1000000_numbers_in_range_10.txt",
-    "1000000_numbers_in_range_1000.txt",
-    "1000000_numbers_in_range_100000.txt"
+        "ARRAY1.txt",
+        "ARRAY2.txt",
+        "ARRAY3.txt",
+        "ARRAY4.txt",
+        "ARRAY5.txt",
+        "ARRAY6.txt",
+        "ARRAY7.txt",
+        "ARRAY8.txt",
+        "ARRAY9.txt"
     };
 
     const int runs = 3;
