@@ -1,0 +1,10 @@
+Filename, Algorithm, Average (s), Sorted Correctly
+ARRAY1.txt, quickSort, 0.001304, Yes
+ARRAY2.txt, quickSort, 0.001540, Yes
+ARRAY3.txt, quickSort, 0.001606, Yes
+ARRAY4.txt, quickSort, 0.016063, Yes
+ARRAY5.txt, quickSort, 0.018602, Yes
+ARRAY6.txt, quickSort, 0.020664, Yes
+ARRAY7.txt, quickSort, 0.192855, Yes
+ARRAY8.txt, quickSort, 0.202641, Yes
+ARRAY9.txt, quickSort, 0.226285, Yes

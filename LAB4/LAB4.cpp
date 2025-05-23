@@ -66,7 +66,7 @@ int main() {
     };
 
     const int runs = 3;
-    std::ofstream resultsFile("results.txt");
+    std::ofstream resultsFile("resultslab4.txt");
     resultsFile << "Filename, Algorithm, Average (s), Sorted Correctly\n";
     resultsFile << std::fixed << std::setprecision(6);
 
