@@ -7,7 +7,7 @@
 #include <chrono>
 #include <iomanip>
 
-bool isSorted(const std::vector<int>& vector) { // Проверка но отсортированность 
+bool isSorted(const std::vector<int>& vector) { // Проверка на отсортированность 
     return std::is_sorted(vector.begin(), vector.end());
 }
 
@@ -37,7 +37,7 @@ std::vector<int> loadFile(const std::string& filename) { // Загружает �
     return vector;
 }
 
-void shellSort(std::vector<int>& vector) { // Сортировка Шелла ( классическая )
+void shellSort(std::vector<int>& vector) { // Сортировка Шелла
     int vectorSize = vector.size();
 
     for (int gap = vectorSize / 2; gap > 0; gap /= 2) {
@@ -106,15 +106,15 @@ void shellSortSedgewick(std::vector<int>& vector) { // Сортировка Ше
 
 int main() { // Мейн >.<
     std::vector<std::string> filenames = {
-        "10000_numbers_in_range_10.txt",
-        "10000_numbers_in_range_1000.txt",
-        "10000_numbers_in_range_100000.txt",
-        "100000_numbers_in_range_10.txt",
-        "100000_numbers_in_range_1000.txt",
-        "100000_numbers_in_range_100000.txt",
-        "1000000_numbers_in_range_10.txt",
-        "1000000_numbers_in_range_1000.txt",
-        "1000000_numbers_in_range_100000.txt"
+        "ARRAY1.txt",
+        "ARRAY2.txt",
+        "ARRAY3.txt",
+        "ARRAY4.txt",
+        "ARRAY5.txt",
+        "ARRAY6.txt",
+        "ARRAY7.txt",
+        "ARRAY8.txt",
+        "ARRAY9.txt"
     };
 
     const int runs = 3;
