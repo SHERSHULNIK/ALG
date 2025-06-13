@@ -1,0 +1,10 @@
+Filename, Algorithm, Average (s), Sorted Correctly
+ARRAY1.txt, bitwiseSort, 0.003008, Yes
+ARRAY2.txt, bitwiseSort, 0.003300, Yes
+ARRAY3.txt, bitwiseSort, 0.003529, Yes
+ARRAY4.txt, bitwiseSort, 0.028599, Yes
+ARRAY5.txt, bitwiseSort, 0.033186, Yes
+ARRAY6.txt, bitwiseSort, 0.038098, Yes
+ARRAY7.txt, bitwiseSort, 0.291707, Yes
+ARRAY8.txt, bitwiseSort, 0.329948, Yes
+ARRAY9.txt, bitwiseSort, 0.389191, Yes
